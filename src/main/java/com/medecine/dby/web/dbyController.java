@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.medecine.dby.pojo.userInfo;
+import com.medecine.dby.pojo.userPojo;
 import com.medecine.dby.service.dbyService;
 
 
@@ -25,7 +25,7 @@ public class dbyController {
 
 	@Autowired
 	private dbyService dby; 
-	userInfo u=new userInfo();
+	userPojo u=new userPojo();
 
 	//登录
 	@RequestMapping("login_dby")
@@ -38,16 +38,16 @@ public class dbyController {
 		u.setUserPhone(userPhone);
 		u.setUserPwd(userPwd);
 		
-		userInfo list = dby.getUser(u);
+		userPojo list = dby.getUser(u);
 		System.out.println("----------------------------------");
 		System.out.println(list);
 		if(list==null) {
 			return 0;
 		}else {
 			
-			userInfo info = dby.getAuthority(list);
+			userPojo info = dby.getAuthority(list);
 			request.getSession().setAttribute("userInfo", info);
-			userInfo info1 = (userInfo)request.getSession().getAttribute("userInfo");
+			userPojo info1 = (userPojo)request.getSession().getAttribute("userInfo");
 			
 			System.out.println("----------------------------------");
 			System.out.println(info1);

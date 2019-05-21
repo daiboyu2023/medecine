@@ -1,7 +1,7 @@
 package com.medecine.dby.pojo;
 
-public class userInfo {
-	public userInfo(int userId, String userPhone, String userName, String userPwd, int authorityId, String authorityName) {
+public class userPojo {
+	public userPojo(int userId, String userPhone, String userName, String userPwd, int authorityId, String authorityName) {
 		super();
 		this.userId = userId;
 		this.userPhone = userPhone;
@@ -58,5 +58,5 @@ public class userInfo {
 	private int authorityId;
 	private String authorityName;
 	
-	public userInfo(){}
+	public userPojo(){}
 }

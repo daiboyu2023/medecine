@@ -2,11 +2,11 @@ package com.medecine.dby.service;
 
 import java.util.List;
 
-import com.medecine.dby.pojo.userInfo;
+import com.medecine.dby.pojo.userPojo;
 
 public interface dbyService {
 		//判断登录
-		userInfo getUser(userInfo u);
+		userPojo getUser(userPojo u);
 		//获取权限
-		userInfo getAuthority(userInfo u);
+		userPojo getAuthority(userPojo u);
 }

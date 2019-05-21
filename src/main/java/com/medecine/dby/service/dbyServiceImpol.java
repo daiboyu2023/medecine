@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.medecine.dby.dao.dbyMapper;
-import com.medecine.dby.pojo.userInfo;
+import com.medecine.dby.pojo.userPojo;
 
 
 @Service
@@ -19,7 +19,7 @@ public class dbyServiceImpol implements dbyService {
 	
 
 	@Override
-	public userInfo getUser(userInfo u) {
+	public userPojo getUser(userPojo u) {
 		// TODO Auto-generated method stub
 		return dby.getUser(u);
 	}
@@ -28,7 +28,7 @@ public class dbyServiceImpol implements dbyService {
 
 
 	@Override
-	public userInfo getAuthority(userInfo u) {
+	public userPojo getAuthority(userPojo u) {
 		// TODO Auto-generated method stub
 		return dby.getAuthority(u);
 	}
