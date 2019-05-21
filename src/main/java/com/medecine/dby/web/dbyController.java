@@ -29,16 +29,14 @@ public class dbyController {
 
 	//登录
 	@RequestMapping("login_dby")
-	public int login(HttpServletRequest request,HttpServletResponse response) {
+	public int login(userPojo pojo,HttpServletRequest request,HttpServletResponse response) {
 		System.out.println("进入");
-		String userPhone = request.getParameter("userPhone");
-		String userPwd = request.getParameter("userPwd");
-		System.out.println(userPhone+"--"+userPwd);
+
+		System.out.println(pojo);
 		
-		u.setUserPhone(userPhone);
-		u.setUserPwd(userPwd);
+
 		
-		userPojo list = dby.getUser(u);
+		userPojo list = dby.getUser(pojo);
 		System.out.println("----------------------------------");
 		System.out.println(list);
 		if(list==null) {
