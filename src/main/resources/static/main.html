@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css"
+	href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+	<div id="cc" class="easyui-layout" data-options="fit:true"
+		style="width: 600px; height: 400px;">
+		<div 
+			data-options="region:'north',split:true" 
+			style="height: 120px;">
+		</div>
+		<div data-options="region:'west',title:'功能模块',split:true"
+			style="width: 200px">
+			<div class="easyui-accordion" data-options="fit:true">
+				<ul id="tt"></ul>
+			</div>
+		</div>
+		<div 
+			data-options="region:'center'" 
+			style="padding:5px;background:#eee;">
+			<div id="tab" class="easyui-tabs" data-options="fit:true"
+				style="width: 500px; height: 250px;">
+				<div title="起始页" style="padding: 0 10px; display: block;"
+					align="center">
+					<h1>欢迎来到医药管理页面</h1>
+				</div>
+			</div>
+		</div> 
+		<div
+			data-options="region:'east',iconCls:'icon-reload',split:true"
+			style="width: 200px;">
+			<div id="cc" class="easyui-calendar" style="width:180px;height:180px;"></div>
+			<div class="easyui-panel" title="日志登录"
+				style="width: 200px; height: 200px; padding: 10px; background: #fafafa;"
+				data-options="iconCls:'icon-save',fit:true">
+				<div style="position: relative;top: -20px;">
+					<p>2019-5-21 15:04登录</p>
+				</div>
+			</div> 
+		</div>
+		<div 
+			data-options="region:'south',split:true" 
+			style="height:70px;">
+			<h3 align="center">©2009-2018 硅谷医药管理系统。Powered by servlet an RasyUI.</h3>
+		</div>   
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			$("#tt").tree({
+				url : "/wujunfan/trees",
+				lines : true,
+				onClick : function(data) {
+					if (data.url) {
+						if ($("#tab").tabs("exists", data.text)) {
+							$("#tab").tabs("select", data.text);
+						} else {
+							$("#tab").tabs("add", {
+								title : data.text,
+								closable : true,
+								href : data.url
+							})
+						}
+					}
+				}
+			})
+			$("#tab").tabs({
+				fit : true,
+				border : false,
+			})
+		})
+	</script>
+	</body>
+</html>
