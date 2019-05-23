@@ -116,6 +116,6 @@ public class accountController {
 	@RequestMapping("add_dby")
 	public int addUser(HttpServletRequest request,userPojo u) {
 		int addUser = dby.addUser(u);
-		return addUser;
+		return addUser; 
 	} 
 }
