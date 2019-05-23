@@ -12,7 +12,7 @@ public class TreesPojo {
 	
 	private Integer nid;
 	
-	private String aid;
+	private int aid;
 
 	public Integer getId() {
 		return id;
@@ -54,11 +54,11 @@ public class TreesPojo {
 		this.nid = nid;
 	}
 
-	public String getAid() {
+	public int getAid() {
 		return aid;
 	}
 
-	public void setAid(String aid) {
+	public void setAid(int aid) {
 		this.aid = aid;
 	}
 

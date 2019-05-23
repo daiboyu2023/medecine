@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户管理</title>
+
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<link rel="stylesheet" href="dby_easyui/themes/default/easyui.css" />
+<link rel="stylesheet" href="dby_easyui/themes/icon.css" />
+<link rel="stylesheet" href="dby_easyui/css/index.css">
+
+
+</head>
+<body>
+<br>
+	<!-- 头部面板操作选项 -->
+	<div id="manager_tool" style="position: relative; left:10px" >
+		<!-- 新增、修改、删除按钮 -->
+		<div style="">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+				onclick="user.add()">添加员工</a> <a href="#" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true" onclick="user.update()">修改员工权限</a> <a
+				href="#" class="easyui-linkbutton" iconCls="icon-remove"
+				plain="true" onclick="user.delete()">办理离职</a>
+		</div><br>
+		<div style="padding: 0 0 0 7px; color: #333;">
+		
+			查询姓名：
+				<input id="qwe1" class="easyui-textbox"  style="width: 100px; height: 22px;"/> 
+				任职状态：
+				<select id="zhuangtai">
+					<option value="1">所有状态</option>
+					<option value="2">任职状态</option>
+					<option value="3">离职状态</option>
+				</select>
+				
+				 创建时间从: <input type="text" class="easyui-datebox" editable="false" id="startDate"  /> 
+				到:<input	type="text" class="easyui-datebox" editable="false" id="stopDate" />
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search"
+				onclick="select()">查询</a>
+		</div>
+		
+	</div>
+
+	<br>
+	<div style="position: relative;left:10px">
+		<table id="empList"> </table>
+	</div>
+	
+
+
+	<!-- 用户新增 -->
+	<form id="manage_add" style="margin: 0; padding: 5px 0 0 25px; color: #333;">
+	<pre>
+员工姓名：        <input id="addUserName"  class="textbox"  style="width: 150px; height: 22px;"/><br>
+员工登录账号/手机：<input id="addUserPhone" class="textbox" type="number" autocomplete="off" class="layui-input" style="width: 150px; height: 22px;"/> <br>
+员工登录密码：     <input id="addUserPwd" class="textbox" type="password" style="width: 150px; height: 22px;"/> <br>
+员工职位：         <select id="addAuthority">
+						<option value="3">员工</option>
+						<option value="2">主管</option>
+					</select>
+	</pre>
+	</form>
+	<!-- 修改 -->
+	<form id="manage_edit"
+		style="margin: 0; padding: 5px 0 0 25px; color: #333;" >
+		<p>
+			<input type="hidden" name="id" class="textbox" style="width: 200px;">
+		</p>
+		<p>
+			帐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号：<input type="text"
+				id="manager" name="manager" class="textbox" style="width: 200px;">
+		</p>
+		<p>
+			邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 箱：<input type="text"
+				id="password" name="password" class="textbox" style="width: 200px;">
+		</p>
+	</form>
+
+	<script type="text/javascript">
+
+	
+	select();
+	function select(){
+		var zhuangtai =document.getElementById("zhuangtai").value;
+		var startTime =document.getElementById("startDate").value;
+		var endTime =document.getElementById("stopDate").value;
+		var usernames=document.getElementById("qwe1").value;
+		var dizhi="getUser_dby?startTime="+startTime+"&endTime="+endTime+"&username="+usernames+"&state1="+zhuangtai;
+		
+		// 加载datagrid分页数据
+			
+		$("#empList").datagrid({
+			width : 810,
+			height:300,
+			url : dizhi,
+			columns : [ [ {
+				field : "userId",
+				title : "员工编号",
+				checkbox : true,
+			}, {
+				field : "userName",
+				title : "员工姓名",
+				align:"center",
+				width:100
+			}, {
+				field : "userPhone",
+				title : "员工手机/账号",
+				align:"center",
+				width:130
+			}, {
+				field : "userPwd",
+				title : "密码",
+				align:"center",
+				width:150
+			}, {
+				field : "authorityName",
+				title : "职位",
+				align:"center",
+				width:100
+			},{
+				field : "recordTime",
+				title : "入职时间",
+				align:"center",
+				width:200
+			},{
+				field : "state",
+				title : "任职状态",
+				align:"center",
+				width:100
+			},] ],
+			pagination : true,
+			pageSize : 5,
+			pageList : [ 2, 4, 5, 10 ],
+//			fit : true,
+//			fitColumns : false,
+
+		})
+	}
+		
+		
+		
+		$("#manage_add").dialog({
+			title : "用户新增",
+			modal : true,
+			closed : true,
+			buttons : [ {
+				text : "提交",
+				handler : function() {
+					var username=$("#addUserName").val();
+					var userPhone=$("#addUserPhone").val();
+					var userPwd=$("#addUserPwd").val();
+					var zhiwei=$("#addAuthority").val();
+					if(username==null){
+						alert("请输入姓名！");
+					}
+					else if(userPhone==null||userPhone.length!=11){
+						alert("请输入正确的手机号！");
+					}else if(userPwd==null){
+						alert("请输入密码！");
+					}else{
+							$.ajax({
+							url : "add_dby",
+							type : "post",
+							data : {
+								userPhone:userPhone,
+								userName:username,
+								userPwd:userPwd,
+								authorityId:zhiwei
+							},
+							success : function(data) {
+								if (data == 1) {
+									$('#manage_add').dialog('close').form('reset');
+									$('#empList').datagrid('reload');//重新加载。
+									$.messager.show({
+										title : '提示',
+										msg : '新增成功！',
+									});
+								} else {
+									$.messager.alert("新增失败", "请联系开发人员", "warning")
+								}
+						
+							}
+						
+						})
+					}
+				
+				}
+			}, {
+				text : "取消",
+				handler : function() {
+					//关闭dialog，并清空表单里面的数据
+					$('#manage_add').dialog('close').form('reset');
+				}
+
+			} ],
+		})
+		//对象方法（新增、修改、删除）
+		user = {
+			"add" : function() {
+				$('#manage_add').dialog('open');//打开新增用户的dialog窗口
+			},
+			"update":function(){
+				var rows = $('#empList').datagrid('getSelections');
+		//		alert(rows[0].id);
+				if(rows.length > 1) {
+					$.messager.alert('警告操作', '编辑记录只能选定一条数据！', 'warning');
+				} else if(rows.length == 1) {
+					$.ajax({
+						type: "post",
+						url: "getUpdate.do?id="+rows[0].id,
+						async: true,
+						dataType:"json",
+						success: function(date) {
+							alert(date);
+							$.messager.progress('close');
+							$('#manage_edit').form('load', {
+								manager: date.username,
+								password: date.email,
+							}).dialog('open');
+
+						},
+						error: function() {
+							$.messager.alert('警告操作', '服务器返回数据失败', 'warning');
+						}
+
+					});
+
+				} else {
+					$.messager.alert('警告操作', '编辑记录至少选定一条数据！', 'warning');
+				}
+			},
+			//删除
+			"delete":function(){
+				var b=confirm("确定要删除吗？");
+				var rows = $('#empList').datagrid('getSelections');
+				if(b){
+					for(var i=0;i<rows.length;i++){
+				if(rows.length > 0) {
+						$.ajax({
+							type: "post",
+							url: "delete.do",
+							async: true,
+							data: {
+								id: rows[0].id,
+							},
+							success: function(data) {
+								if(data>0){
+									$.messager.show({
+										title : '提示',
+										msg : '删除成功！',
+									});
+									$('#empList').datagrid('reload');//重新加载。
+								} else {
+									$.messager.alert("新增失败", "请联系开发人员", "warning")
+								}
+							},
+							error: function() {
+								$.messager.alert('警告操作', '删除失败，请联系程序猿！', 'warning');
+							}
+
+						});
+					
+
+				} else {
+					$.messager.alert('警告操作', '删除记录至少选定一条数据！', 'warning');
+				}
+				
+				
+			}
+			}
+		}
+			}
+		//设置时间验证
+		$("#submitdate").datetimebox({
+			required : true,
+			editable : false,
+			missingMessage : '请选择时间',
+		});
+
+		//管理帐号 
+		$('input[name="username"]').validatebox({
+			required : true,
+			validType : 'length[2,20]',
+			missingMessage : '请输入账号',
+			invalidMessage : '管理名称在 2-20 位',
+		});
+		//管理邮箱
+		$('input[name="useremil"]').validatebox({
+			required : true,
+			validType : 'email',
+			missingMessage : '请输入邮箱',
+			invalidMessage : '邮箱格式不正确',
+		});
+		
+		
+		$("#manage_edit").dialog({
+			width: 350,
+			title: '修改',
+			modal: true,
+			closed: true,
+			buttons: [{
+				text: '提交',
+				handler: function() {
+					$.ajax({
+						url: "update.do",
+						type: "post",
+						data: {
+							id: $('input[name="id"]').val(),
+							username: $('#manager').val(),
+							email: $('#password').val(),
+						},
+						beforeSend: function() {
+							$.messager.progress({
+								text: '正在尝试提交...',
+							});
+						},
+						success: function(data) {
+							$.messager.progress('close');
+							if(data > 0) {
+								$.messager.show({
+									title: '提示',
+									msg: '修改成功！',
+								});
+								$('#manage_edit').dialog('close').form('reset');
+								$('#empList').datagrid('reload');
+							} else {
+								$.messager.alert('警告操作', '未知操作或无任何修改，请重新提交！', 'warning');
+							}
+						}
+					})
+
+				},
+			}, {
+				text: '取消',
+
+				handler: function() {
+					$('#manage_edit').dialog('close').form('reset');
+				},
+			}],
+
+		})
+		function search(){
+			var username=$("input[name='user']").val();
+			show(username,null,null);
+		}
+		
+	</script>
+</body>
+</html>

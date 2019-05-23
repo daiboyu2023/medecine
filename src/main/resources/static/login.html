@@ -61,7 +61,9 @@
 				userPwd:$("#password").val()
 			},
 			success:function(data){
-				alert(date);
+				if(data==1){
+					window.location.href="main.html";
+				}
 			}
 		});
 	}

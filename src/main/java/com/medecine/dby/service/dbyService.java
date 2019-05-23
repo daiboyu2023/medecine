@@ -9,4 +9,13 @@ public interface dbyService {
 		userPojo getUser(userPojo u);
 		//获取权限
 		userPojo getAuthority(userPojo u);
+		
+		//查询所有用户
+		List<userPojo> getUserAll(userPojo u);
+		
+		//查询总数
+		int getUserCount(userPojo u);
+		
+		//添加用户
+		int addUser(userPojo u);
 }
