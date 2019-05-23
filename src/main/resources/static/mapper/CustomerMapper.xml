@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medecine.wjf.dao.CustomerMapper">
+	<select id="Customerquery" resultType="com.medecine.wjf.pojo.CustomerPojo">
+		SELECT 
+			c.customerId,c.customerName,
+			c.contactsName,c.contactsPhone,
+			c.customerAddress,u.username 
+		FROM 
+			customer AS c,userinfo AS u 
+		WHERE 
+			c.userId=u.userId
+	</select>
+</mapper>
