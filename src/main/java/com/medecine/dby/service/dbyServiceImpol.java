@@ -33,6 +33,33 @@ public class dbyServiceImpol implements dbyService {
 		return dby.getAuthority(u);
 	}
 
+
+
+
+	@Override
+	public List<userPojo> getUserAll(userPojo u) {
+		// TODO Auto-generated method stub
+		return dby.getUserAll(u);
+	}
+
+
+
+
+	@Override
+	public int getUserCount(userPojo u) {
+		// TODO Auto-generated method stub
+		return dby.getUserCount(u);
+	}
+
+
+
+
+	@Override
+	public int addUser(userPojo u) {
+		// TODO Auto-generated method stub
+		return dby.addUser(u);
+	}
+
 	
 
 

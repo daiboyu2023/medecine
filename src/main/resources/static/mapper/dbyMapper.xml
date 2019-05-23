@@ -13,4 +13,23 @@
   	  <select id="getAuthority" resultType="com.medecine.dby.pojo.userPojo" parameterType="com.medecine.dby.pojo.userPojo">
   		select * from authority where authorityId=#{authorityId}
   	</select>
+  	
+  	
+  	
+  	<!--模糊查询用户 -->
+  	<select id="getUserAll" resultType="com.medecine.dby.pojo.userPojo" parameterType="com.medecine.dby.pojo.userPojo">
+  		select * from userInfo as u inner join authority as a on u.authorityId=a.authorityId where  u.userName like CONCAT('%',#{userName},'%') and u.state like concat('%',#{state},'%') and u.recordtime BETWEEN #{startTime} and #{endTime} limit #{a},#{rows}
+  	</select>
+  	
+	
+	<!--模糊查询用户总数 -->
+  	<select id="getUserCount" resultType="int" parameterType="com.medecine.dby.pojo.userPojo">
+  		select count(*) from userInfo where  userName like CONCAT('%',#{userName},'%') and state like concat('%',#{state},'%') and recordtime BETWEEN #{startTime} and #{endTime}
+  	</select>
+  	
+
+  	<!-- 新增用户 -->
+  	<insert id="addUser"  parameterType="com.medecine.dby.pojo.userPojo" >
+  		insert into userinfo (userPhone,userName,userPwd,authorityId,state) values(#{userPhone},#{userName},#{userPwd},#{authorityId},'在职')
+  	</insert>
 </mapper>

@@ -12,13 +12,22 @@
 </head>
 <body>
 	<div id="cc" class="easyui-layout" data-options="fit:true"
-		style="width: 600px; height: 400px;">
-		<div 
-			data-options="region:'north',split:true" 
-			style="height: 120px;">
+		style="width: 600px; height: 400px">
+		<div data-options="region:'north',split:true" style="height: 225px;float:left;overflow: hidden">
+				<img alt="" src="./images/head.png" style="position: relative;left:10px">
+			<div style="float: right;position: relative;top:20px;right:50px">
+				<font size="5" >您好，</font><font id="username" size="5" color="red">戴柏禹管理员</font>&nbsp;&nbsp;&nbsp;
+				<a href="#"> <font size="5" color="blue">修改密码</font> </a>&nbsp;&nbsp;&nbsp;
+				<a href="#"><font size="5" color="blue">退出登录</font></a>					
+			</div>
+			
+			<div style="width:700px;height:150px;position: relative; top:-200px;left:330px;background-color: #ffffff;" align="center">
+				<font color="blue" size="7" >湖南硅谷医药管理页面</font>
+			</div>
+			
 		</div>
 		<div data-options="region:'west',title:'功能模块',split:true"
-			style="width: 200px">
+			style="width: 250px;position: relative;right:-2px">
 			<div class="easyui-accordion" data-options="fit:true">
 				<ul id="tt"></ul>
 			</div>
@@ -27,17 +36,17 @@
 			data-options="region:'center'" 
 			style="padding:5px;background:#eee;">
 			<div id="tab" class="easyui-tabs" data-options="fit:true"
-				style="width: 500px; height: 250px;">
+				style="width: 500px; height: 250px;"> 	 
 				<div title="起始页" style="padding: 0 10px; display: block;"
 					align="center">
-					<h1>欢迎来到医药管理页面</h1>
+					
 				</div>
 			</div>
 		</div> 
 		<div
 			data-options="region:'east',iconCls:'icon-reload',split:true"
-			style="width: 200px;">
-			<div id="cc" class="easyui-calendar" style="width:180px;height:180px;"></div>
+			style="width: 300px;position: relative;right:2px">
+			<div id="cc" class="easyui-calendar" style="width:300px;height:300px;"align="center"></div>
 			<div class="easyui-panel" title="日志登录"
 				style="width: 200px; height: 200px; padding: 10px; background: #fafafa;"
 				data-options="iconCls:'icon-save',fit:true">
