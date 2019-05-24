@@ -12,8 +12,8 @@ public class TreesPojo {
 	
 	private Integer nid;
 	
-	private int aid;
-
+	private Integer aid;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -50,16 +50,16 @@ public class TreesPojo {
 		return nid;
 	}
 
-	public void setNid(Integer nid) {
-		this.nid = nid;
-	}
-
-	public int getAid() {
+	public Integer getAid() {
 		return aid;
 	}
 
-	public void setAid(int aid) {
+	public void setAid(Integer aid) {
 		this.aid = aid;
+	}
+
+	public void setNid(Integer nid) {
+		this.nid = nid;
 	}
 
 	@Override

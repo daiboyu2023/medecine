@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css"
+	href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<table id="usergrid"></table>
+<div id="childwin"></div>
+<script type="text/javascript">
+	$('#usergrid').datagrid({
+		url : '/wujunfan/Druginfoquery',
+		fitColumns : true,
+		singleSelect : false,
+		rownumbers : true,
+		pagination : true,
+		pageList : [ 5, 10, 15, 20, 25 ],
+		pageSize : 10,
+		columns : [ [ {
+			field : 'drugId',title : '药品ID',align : 'center',checkbox:true
+		},{
+			field : 'drugName',title : '药品名称',width : 100,align : 'center'
+		},{
+			field : 'drugSpecifications',title : '药品规格',width : 100,align : 'center'
+		},{
+			field : 'supplierName',title : '供应商公司',width : 100,align : 'center'
+		},{
+			field : 'drugUnit',title : '单位',width : 100,align : 'center'
+		},{
+			field : 'drugNum',title : '库存数量',width : 100,align : 'center'
+		},{
+			field : 'priceIn',title : '进价',width : 100,align : 'center'
+		},{
+			field : 'priceOut',title : '售价',width : 100,align : 'center'
+		},] ]
+	});
+
+</script>
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.medecine.wjf.web;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class TreeContorller {
 	private TreesService service;
 	
 	@RequestMapping("/wujunfan/trees")
-	public List<TreesPojo> Trees(HttpServletRequest request){
+	public List<TreesPojo> Trees(HttpServletRequest request,HttpServletResponse response){
 		int nid=0;
 		try {
 			nid=Integer.parseInt(request.getParameter("id"));
@@ -31,6 +32,11 @@ public class TreeContorller {
 		if(user!=null) {
 		TreesPojo pojo=new TreesPojo();
 		pojo.setNid(nid);
+//		String string=(String) request.getSession().getAttribute("authority");
+//		if(string==null) {
+//			request.getRequestDispatcher("login.html");
+//		}
+		pojo.setAid(1);
 		pojo.setAid(user.getAuthorityId());
 		List<TreesPojo> list=service.Trees(pojo);
 		return list;

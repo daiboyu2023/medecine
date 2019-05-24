@@ -6,5 +6,6 @@ import com.medecine.wjf.pojo.TreesPojo;
 
 public interface TreesMapper {
 	
+	//查询树状图
 	List<TreesPojo> trees(TreesPojo pojo);
 }

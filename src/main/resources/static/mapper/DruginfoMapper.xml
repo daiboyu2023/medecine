@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.medecine.wjf.dao.DruginfoMapper">
+	<select id="Druginfoquery" resultType="com.medecine.wjf.pojo.DruginfoPojo">
+		SELECT 
+			d.drugId,d.drugname,
+			d.drugSpecifications,
+			d.drugUnit,d.drugNum,
+			s.supplierName,d.priceIn,
+			d.priceOut,d.tishiNum
+		FROM 
+			druginfo AS d,supplier AS s 
+		WHERE 
+			d.supplierId=s.supplierId
+	</select>
+</mapper>
