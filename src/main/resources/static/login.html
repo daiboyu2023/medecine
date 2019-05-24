@@ -52,7 +52,6 @@
 	function login(){
 		var userPhone=$("#username").val();
 		var userPwd=$("#password").val();
-		alert(userPhone+"----"+userPwd);
 		$.ajax({
 			Type:"post",
 			url:"login_dby",
@@ -61,8 +60,13 @@
 				userPwd:$("#password").val()
 			},
 			success:function(data){
-				if(data==1){
-					window.location.href="main.html";
+				if(data==2){
+					alert("你已经被开除，无权登录！");
+				}
+				else if(data==1){
+					window.location.href="main.html?";
+				}else{
+					alert("账号/电话 或者密码错误！");
 				}
 			}
 		});

@@ -60,6 +60,33 @@ public class dbyServiceImpol implements dbyService {
 		return dby.addUser(u);
 	}
 
+
+
+
+	@Override
+	public int update(userPojo u) {
+		// TODO Auto-generated method stub
+		return dby.update(u);
+	}
+
+
+
+
+	@Override
+	public int delete(userPojo u) {
+		// TODO Auto-generated method stub
+		return dby.delete(u);
+	}
+
+
+
+
+	@Override
+	public int updatePwd(userPojo u) {
+		// TODO Auto-generated method stub
+		return dby.updatePwd(u);
+	}
+
 	
 
 

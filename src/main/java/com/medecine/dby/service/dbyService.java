@@ -18,4 +18,13 @@ public interface dbyService {
 		
 		//添加用户
 		int addUser(userPojo u);
+		
+		//获取要修改的员工信息
+		int update(userPojo u);
+		
+		//开除员工
+		int delete(userPojo u);
+		
+		//修改密码
+		int updatePwd(userPojo u);
 }

@@ -32,4 +32,20 @@
   	<insert id="addUser"  parameterType="com.medecine.dby.pojo.userPojo" >
   		insert into userinfo (userPhone,userName,userPwd,authorityId,state) values(#{userPhone},#{userName},#{userPwd},#{authorityId},'在职')
   	</insert>
+  	
+  	<!--修改员工信息 -->
+  	 <update id="update" parameterType="com.medecine.dby.pojo.userPojo" >
+  	 update userInfo set userPhone=#{userPhone},userName=#{userName},userPwd=#{userPwd},authorityId=#{authorityId} where userId=#{userId}
+  	 </update>
+  	
+ 	<!-- 开除员工 -->
+ 	<update id="delete" parameterType="com.medecine.dby.pojo.userPojo" >
+  	 update userInfo set state= '离职' where userId=#{userId}
+  	 </update>
+  	 
+  	 
+  	 <!-- 修改密码 -->
+ 	<update id="updatePwd" parameterType="com.medecine.dby.pojo.userPojo" >
+  	 update userInfo set userPwd= #{userPwd} where userId=#{userId}
+  	 </update>
 </mapper>

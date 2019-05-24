@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,29 +22,37 @@ import com.medecine.dby.service.dbyService;
 
 
 
+@Controller
 @RestController
 public class accountController {
 
 	@Autowired
 	private dbyService dby;
+	
 
 	//登录
 	@RequestMapping("login_dby")
 	public int doLogin(HttpServletRequest request,userPojo u) {
 		userPojo user = dby.getUser(u);
-		System.out.println(user);
-		userPojo authority = dby.getAuthority(user);
-		user.setAuthorityName(authority.getAuthorityName());
-		System.out.println(user);
-		request.getSession().setAttribute("userInfo", user);
-		request.getSession().setAttribute("userId", user.getUserId());
-		request.getSession().setAttribute("authorityName", user.getAuthorityName());
-		request.getSession().setAttribute("recordTime", user.getRecordTime());
-		if(authority!=null) {
-			return 1;
-		}else {
+		if(user==null) {
+			System.out.println("账号密码错误");
 			return 0;
-		}
+		}else{
+			userPojo authority = dby.getAuthority(user);
+			if(user.getState().equals("离职")) {
+				return 2;
+			}
+			else {
+
+				user.setAuthorityName(authority.getAuthorityName());
+				System.out.println(user);
+				request.getSession().setAttribute("userInfo", user);
+				request.getSession().setAttribute("userPwd", user.getUserPwd());
+				request.getSession().setAttribute("userId", user.getUserId());
+				request.getSession().setAttribute("authorityName", user.getAuthorityName());
+				request.getSession().setAttribute("recordTime", user.getRecordTime());
+				return 1;
+			}}
 	} 
 
 	//查询
@@ -53,7 +62,6 @@ public class accountController {
 		userPojo uuu=new userPojo();
 		int page=Integer.parseInt(request.getParameter("page"));
 		int rows=Integer.parseInt(request.getParameter("rows"));
-		System.out.println(page+"-----"+rows);
 		int a=(page-1)*rows;
 		ro.setA(a);
 		ro.setRows(rows);
@@ -62,7 +70,6 @@ public class accountController {
 		//添加条件
 
 		String state=request.getParameter("state1");					//获取模糊查询在职状态
-		System.out.println("state===="+state);
 		if(state.equals("1")) {
 			state="";
 		}else if(state.equals("2")) {
@@ -81,9 +88,6 @@ public class accountController {
 		if(endTime=="") {
 			endTime="2030-05-01";
 		}
-
-		System.out.println("开始时间："+startTime);
-		System.out.println("结束时间："+endTime);
 		//添加数据
 
 		uuu.setEndTime(endTime);
@@ -96,11 +100,7 @@ public class accountController {
 		if(userName==null) {
 			userName="";
 		}
-		System.out.println("userName===="+userName);
 		uuu.setUserName(userName);
-
-		System.out.println("实体类==="+uuu);
-
 		list = dby.getUserAll(uuu);
 		System.out.println("集合==="+list);
 		count=dby.getUserCount(uuu);
@@ -108,14 +108,70 @@ public class accountController {
 
 		m.setRows(list);
 		m.setTotal(count);
-		System.out.println(m);
 		return m;
 	}
 
-
+	//添加员工
 	@RequestMapping("add_dby")
 	public int addUser(HttpServletRequest request,userPojo u) {
 		int addUser = dby.addUser(u);
 		return addUser; 
 	} 
+	
+	//修改员工信息
+	@RequestMapping("update_dby")
+	public int getUpdate(HttpServletRequest request,userPojo u) {
+		int update = dby.update(u);
+		return update;
+
+	} 
+	
+	//开除员工
+	@RequestMapping("delete_dby")
+	public int delete(HttpServletRequest request,userPojo u) {
+		int update = dby.delete(u);
+		return update;
+	} 
+	
+	//判断登录
+	@RequestMapping("panduan_dby")
+	public String panduan(HttpServletRequest request,userPojo u) {
+		HttpSession se= request.getSession();
+		Object ob = se.getAttribute("userInfo");
+		if(ob==null) {
+			return "0";
+		}else {
+			userPojo user=(userPojo)se.getAttribute("userInfo");
+			System.out.println(user);
+			String userName=user.getUserName();
+			String zhiwei=user.getAuthorityName();
+			
+			return userName+zhiwei;
+		}
+	} 
+	
+	@RequestMapping("tuichu_dby")
+	public int tuichu(HttpServletRequest request) {
+		request.getSession().setAttribute("userInfo", null);
+		return 1;
+	}
+	
+	@RequestMapping("xiugai_dby")
+	public int xiugai(HttpServletRequest request) {
+		String pwd1 = request.getParameter("userPwd1");
+		String pwd2 = request.getParameter("userPwd2");
+		
+		userPojo user = (userPojo) request.getSession().getAttribute("userInfo");
+			if(pwd1.equals(user.getUserPwd())) {
+				user.setUserPwd(pwd2);
+				int i = dby.updatePwd(user);
+				
+				
+				return i;
+			}else {
+				return 2;
+			}
+		
+	
+	}
 }

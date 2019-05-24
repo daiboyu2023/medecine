@@ -20,7 +20,7 @@
 		<div style="">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
 				onclick="user.add()">添加员工</a> <a href="#" class="easyui-linkbutton"
-				iconCls="icon-edit" plain="true" onclick="user.update()">修改员工权限</a> <a
+				iconCls="icon-edit" plain="true" onclick="user.update()">修改员工信息及权限</a> <a
 				href="#" class="easyui-linkbutton" iconCls="icon-remove"
 				plain="true" onclick="user.delete()">办理离职</a>
 		</div><br>
@@ -63,24 +63,22 @@
 	</pre>
 	</form>
 	<!-- 修改 -->
-	<form id="manage_edit"
-		style="margin: 0; padding: 5px 0 0 25px; color: #333;" >
-		<p>
-			<input type="hidden" name="id" class="textbox" style="width: 200px;">
-		</p>
-		<p>
-			帐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号：<input type="text"
-				id="manager" name="manager" class="textbox" style="width: 200px;">
-		</p>
-		<p>
-			邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 箱：<input type="text"
-				id="password" name="password" class="textbox" style="width: 200px;">
-		</p>
+	<form id="manage_edit" style="margin: 0; padding: 5px 0 0 25px; color: #333;">
+	<pre>
+员工姓名：        <input id="updateUserName"  class="textbox"  style="width: 150px; height: 22px;"/><br>
+员工登录账号/手机：<input id="updateUserPhone" class="textbox" type="number" autocomplete="off" class="layui-input" style="width: 150px; height: 22px;"/> <br>
+员工登录密码：     <input id="updateUserPwd" class="textbox"  style="width: 150px; height: 22px;"/> <br>
+员工职位：         <select id="updateAuthority">
+						<option value="3">员工</option>
+						<option value="2">主管</option>
+						<option value="1">管理员</option>
+					</select>
+	</pre>
+	<input id="updateUserId" type="hidden">
 	</form>
 
 	<script type="text/javascript">
 
-	
 	select();
 	function select(){
 		var zhuangtai =document.getElementById("zhuangtai").value;
@@ -93,7 +91,7 @@
 			
 		$("#empList").datagrid({
 			width : 810,
-			height:300,
+			height:390,
 			url : dizhi,
 			columns : [ [ {
 				field : "userId",
@@ -131,8 +129,8 @@
 				width:100
 			},] ],
 			pagination : true,
-			pageSize : 5,
-			pageList : [ 2, 4, 5, 10 ],
+			pageSize : 10,
+			pageList : [ 2, 5,10],
 //			fit : true,
 //			fitColumns : false,
 
@@ -157,8 +155,8 @@
 					}
 					else if(userPhone==null||userPhone.length!=11){
 						alert("请输入正确的手机号！");
-					}else if(userPwd==null){
-						alert("请输入密码！");
+					}else if(userPwd==null||userPwd<6){
+						alert("密码不能为空且长度不得少于6位");
 					}else{
 							$.ajax({
 							url : "add_dby",
@@ -202,49 +200,39 @@
 				$('#manage_add').dialog('open');//打开新增用户的dialog窗口
 			},
 			"update":function(){
+				
 				var rows = $('#empList').datagrid('getSelections');
 		//		alert(rows[0].id);
 				if(rows.length > 1) {
-					$.messager.alert('警告操作', '编辑记录只能选定一条数据！', 'warning');
+					$.messager.alert('警告操作', '只能修改单个员工！', 'warning');
 				} else if(rows.length == 1) {
-					$.ajax({
-						type: "post",
-						url: "getUpdate.do?id="+rows[0].id,
-						async: true,
-						dataType:"json",
-						success: function(date) {
-							alert(date);
-							$.messager.progress('close');
-							$('#manage_edit').form('load', {
-								manager: date.username,
-								password: date.email,
-							}).dialog('open');
-
-						},
-						error: function() {
-							$.messager.alert('警告操作', '服务器返回数据失败', 'warning');
-						}
-
-					});
+					$.messager.progress('close');
+					$('#manage_edit').form('load').dialog('open');
+					$("#updateUserName").val(rows[0].userName);
+					$("#updateUserPwd").val(rows[0].userPwd);
+					$("#updateUserPhone").val(rows[0].userPhone);
+					$("#updateUserId").val(rows[0].userId);
 
 				} else {
-					$.messager.alert('警告操作', '编辑记录至少选定一条数据！', 'warning');
+					$.messager.alert('警告操作', '请选择员工！', 'warning');
 				}
 			},
+			
+			
+			
+			
 			//删除
 			"delete":function(){
-				var b=confirm("确定要删除吗？");
+				var b=confirm("确定要开除吗？");
 				var rows = $('#empList').datagrid('getSelections');
 				if(b){
+					if(rows.length > 0) {
 					for(var i=0;i<rows.length;i++){
-				if(rows.length > 0) {
 						$.ajax({
 							type: "post",
-							url: "delete.do",
+							url: "delete_dby",
 							async: true,
-							data: {
-								id: rows[0].id,
-							},
+							data: {	userId: rows[i].userId,	},
 							success: function(data) {
 								if(data>0){
 									$.messager.show({
@@ -253,25 +241,21 @@
 									});
 									$('#empList').datagrid('reload');//重新加载。
 								} else {
-									$.messager.alert("新增失败", "请联系开发人员", "warning")
+									$.messager.alert( "请联系开发人员", "warning")
 								}
 							},
 							error: function() {
-								$.messager.alert('警告操作', '删除失败，请联系程序猿！', 'warning');
+								$.messager.alert('警告操作', '开除失败，请联系程序猿！', 'warning');
 							}
 
-						});
-					
-
-				} else {
-					$.messager.alert('警告操作', '删除记录至少选定一条数据！', 'warning');
-				}
-				
-				
-			}
+							});
+						}				
+					}else {
+						$.messager.alert('警告操作', '请先选择要开除的员工', 'warning');
+					}
+				} 
 			}
 		}
-			}
 		//设置时间验证
 		$("#submitdate").datetimebox({
 			required : true,
@@ -304,12 +288,14 @@
 				text: '提交',
 				handler: function() {
 					$.ajax({
-						url: "update.do",
+						url: "update_dby",
 						type: "post",
 						data: {
-							id: $('input[name="id"]').val(),
-							username: $('#manager').val(),
-							email: $('#password').val(),
+							userId: $("#updateUserId").val(),
+							userName: $('#updateUserName').val(),
+							userPhone: $('#updateUserPhone').val(),
+							userPwd:$('#updateUserPwd').val(),
+							authorityId:$("#updateAuthority").val(),
 						},
 						beforeSend: function() {
 							$.messager.progress({
@@ -318,7 +304,7 @@
 						},
 						success: function(data) {
 							$.messager.progress('close');
-							if(data > 0) {
+							if(data >0) {
 								$.messager.show({
 									title: '提示',
 									msg: '修改成功！',
