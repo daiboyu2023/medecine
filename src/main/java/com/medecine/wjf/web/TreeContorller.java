@@ -28,10 +28,15 @@ public class TreeContorller {
 			nid=0;
 		}
 		userPojo user=(userPojo) request.getSession().getAttribute("userInfo");
+		if(user!=null) {
 		TreesPojo pojo=new TreesPojo();
 		pojo.setNid(nid);
 		pojo.setAid(user.getAuthorityId());
 		List<TreesPojo> list=service.Trees(pojo);
 		return list;
+		}
+		else {
+			return null;
+		}
 	}
 }

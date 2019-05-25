@@ -3,66 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css"
-	href="easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
 <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" href="dby_easyui/themes/default/easyui.css" />
+<link rel="stylesheet" href="dby_easyui/themes/icon.css" />
+<link rel="stylesheet" href="dby_easyui/css/index.css">
 </head>
 <body>
 	<div id="cc" class="easyui-layout" data-options="fit:true"
 		style="width: 600px; height: 400px">
-		<div data-options="region:'north',split:true" style="height: 225px;float:left;overflow: hidden">
-				<img alt="" src="./images/head.png" style="position: relative;left:10px">
-			<div style="float: right;position: relative;top:20px;right:50px">
-				<font size="5" >您好，</font><font id="username" size="5" color="red">戴柏禹管理员</font>&nbsp;&nbsp;&nbsp;
-				<a href="#"> <font size="5" color="blue">修改密码</font> </a>&nbsp;&nbsp;&nbsp;
-				<a href="#"><font size="5" color="blue">退出登录</font></a>					
+		<div data-options="region:'north',split:true"
+			style="height: 225px; float: left; overflow: hidden">
+			<img alt="" src="./images/head.png"
+				style="position: relative; left: 10px">
+			<div style="float: right; position: relative; top: 20px; right: 50px">
+				<font size="5">您好，</font><font id="username11" size="5" color="red"></font>&nbsp;&nbsp;&nbsp;
+				<a href="#"> <font size="5" color="blue" onclick="user.update()">修改密码</font>
+				</a>&nbsp;&nbsp;&nbsp; <a href="#"><font size="5" color="blue"
+					onclick="tuichu()">退出登录</font></a>
 			</div>
-			
-			<div style="width:700px;height:150px;position: relative; top:-200px;left:330px;background-color: #ffffff;" align="center">
-				<font color="blue" size="7" >湖南硅谷医药管理页面</font>
+
+			<div style="width: 700px; height: 250px; position: relative; top: -200px; left: 330px; background-color: #ffffff; line-height: 160px;"
+				align="center">
+				<font color="blue" size="7">湖南硅谷医药管理页面</font>
 			</div>
-			
+
 		</div>
 		<div data-options="region:'west',title:'功能模块',split:true"
-			style="width: 250px;position: relative;right:-2px">
+			style="width: 250px; position: relative; right: -2px">
 			<div class="easyui-accordion" data-options="fit:true">
 				<ul id="tt"></ul>
 			</div>
 		</div>
-		<div 
-			data-options="region:'center'" 
-			style="padding:5px;background:#eee;">
+		<div data-options="region:'center'"
+			style="padding: 5px; background: #eee;">
 			<div id="tab" class="easyui-tabs" data-options="fit:true"
-				style="width: 500px; height: 250px;"> 	 
-				<div title="起始页" style="padding: 0 10px; display: block;"
-					align="center">
+				style="width: 500px; height: 250px;" >
+				<div title="主页" style="padding: 0 10px; display: block;">
 					
+					<div style="float:left; " align="center">
+						<font size="5" color="red">库存不足提醒</font><br>
+						<table id="empList"> 
+							
+						</table>
+					</div>
+					<div style="float:right;width:605px;height:565px;border: 1px solid red" align="center">
+						<font size="5" color="red">使用教程</font><br>
+						
+					</div>
 				</div>
 			</div>
-		</div> 
-		<div
-			data-options="region:'east',iconCls:'icon-reload',split:true"
-			style="width: 300px;position: relative;right:2px">
-			<div id="cc" class="easyui-calendar" style="width:300px;height:300px;"align="center"></div>
+		</div>
+		<div data-options="region:'east',iconCls:'icon-reload',split:true"
+			style="width: 300px; position: relative; right: 2px">
+			<div id="cc" class="easyui-calendar"
+				style="width: 300px; height: 300px;" align="center"></div>
 			<div class="easyui-panel" title="日志登录"
 				style="width: 200px; height: 200px; padding: 10px; background: #fafafa;"
 				data-options="iconCls:'icon-save',fit:true">
-				<div style="position: relative;top: -20px;">
-					<p>2019-5-21 15:04登录</p>
+				<div style="position: relative; top: -10px;left:-10px;">
+					<table id="empList1"> 
+							
+					</table>
 				</div>
-			</div> 
+			</div>
 		</div>
-		<div 
-			data-options="region:'south',split:true" 
-			style="height:70px;">
-			<h3 align="center">©2009-2018 硅谷医药管理系统。Powered by servlet an RasyUI.</h3>
-		</div>   
+		<div data-options="region:'south',split:true" style="height: 70px;">
+			<h3 align="center">©2009-2018 硅谷医药管理系统。Powered by servlet an
+				RasyUI.</h3>
+		</div>
 	</div>
+
+
+	<!-- 修改密码 -->
+	<form id="manage_edit"
+		style="margin: 0; padding: 5px 0 0 25px; color: #333;">
+		<pre>
+原密码：        <input id="updatePwd1" class="textbox" type="password"
+				style="width: 150px; height: 22px;" /><br>
+新密码：        <input id="updatePwd2" class="textbox" type="password"
+				style="width: 150px; height: 22px;" /> <br>
+重复新密码：    <input id="updatePwd3" class="textbox" type="password"
+				style="width: 150px; height: 22px;" /> <br>
+	</pre>
+	</form>
 	<script type="text/javascript">
-		$(function(){
+			panduan();
+			function panduan(){
+				$.ajax({
+					Type:"post",
+					url:"panduan_dby",
+					success:function(data){
+						if(data==0){
+							alert("没拿到session");
+							window.location.href="login.html";
+						}else{
+							$("#username11").text(data);
+						}
+					}
+				});
+				
+			}
+			
+			$("#empList").datagrid({
+				width :602,
+				height:538,
+				url : "getDrugCount_dby",
+				columns : [ [ {
+					field : "drugId",
+					title : "药品编号",
+					align:"center",
+					width:120
+				}, {
+					field : "drugName",
+					title : "药品名称",
+					align:"center",
+					width:120
+				}, {
+					field : "drugUnit",
+					title : "药品单位",
+					align:"center",
+					width:120
+				}, {
+					field : "drugNum",
+					title : "库存数量",
+					align:"center",
+					width:120
+				}, {
+					field : "tishiNum",
+					title : "库存提示数量",
+					align:"center",
+					width:120
+				},] ],
+				pagination : true,
+				pageSize : 10,
+				pageList : [ 5, 10,20],
+//				fit : true,
+//				fitColumns : false,
+
+			})
+		
+			$("#empList1").datagrid({
+				width :290,
+				height:320,
+				url : "getLogin_dby",
+				columns : [ [ {
+					field : "userName",
+					title : "姓名",
+					align:"center",
+					width:144
+				}, {
+					field : "loginTime",
+					title : "登录时间",
+					align:"center",
+					width:144
+				},] ],
+				pagination : true,
+				pageSize : 10,
+				pageList : [ 5, 10,20],
+//				fit : true,
+//				fitColumns : false,
+
+			})
+			
+			
+			user={
+				"update":function(){
+					$.messager.progress('close');
+					$('#manage_edit').form('load').dialog('open');
+				}	
+			}
+			
+			
+			$("#manage_edit").dialog({
+				width: 350,
+				title: '修改',
+				modal: true,
+				closed: true,
+				buttons: [{
+					text: '提交',
+					handler: function() {
+						var pwd1=$("#updatePwd3").val();
+						var pwd2=$("#updatePwd2").val();
+						if(pwd1!=pwd2){
+							alert("新密码不一致！");
+						}
+						else{
+						$.ajax({
+							Type:"post",
+							url:"xiugai_dby",
+							data : {
+								userPwd1:$("#updatePwd1").val(),
+								userPwd2:$("#updatePwd2").val(),
+								userPwd3:$("#updatePwd3").val(),
+							},
+							success:function(data){
+								if(data==1){
+									alert("修改成功，请重新登录！");
+									window.location.href="login.html";
+								}else if(data==0){
+									alert("原密码错误！");
+								}
+								}
+							});
+							}
+					},},{
+					text: '取消',
+					handler: function() {
+						$('#manage_edit').dialog('close').form('reset');
+					
+					}
+			}],
+
+			})
+			
+			
+			
+			function tuichu(){
+				var b=	confirm("确定退出吗？");
+				if(b){
+					
+				$.ajax({
+					Type:"post",
+					url:"tuichu_dby",
+					success:function(data){
+						if(data==1){
+							window.location.href="login.html";
+						}
+						}
+					});
+				}
+			}
+	
+	
+			$(function(){
 			$("#tt").tree({
 				url : "/wujunfan/trees",
 				lines : true,
@@ -86,5 +260,5 @@
 			})
 		})
 	</script>
-	</body>
+</body>
 </html>

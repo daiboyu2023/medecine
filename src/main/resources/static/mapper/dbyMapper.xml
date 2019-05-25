@@ -32,4 +32,48 @@
   	<insert id="addUser"  parameterType="com.medecine.dby.pojo.userPojo" >
   		insert into userinfo (userPhone,userName,userPwd,authorityId,state) values(#{userPhone},#{userName},#{userPwd},#{authorityId},'在职')
   	</insert>
+  	
+  	<!--修改员工信息 -->
+  	 <update id="update" parameterType="com.medecine.dby.pojo.userPojo" >
+  	 update userInfo set userPhone=#{userPhone},userName=#{userName},userPwd=#{userPwd},authorityId=#{authorityId} where userId=#{userId}
+  	 </update>
+  	
+ 	<!-- 开除员工 -->
+ 	<update id="delete" parameterType="com.medecine.dby.pojo.userPojo" >
+  	 update userInfo set state= '离职' where userId=#{userId}
+  	 </update>
+  	 
+  	 
+  	 <!-- 修改密码 -->
+ 	<update id="updatePwd" parameterType="com.medecine.dby.pojo.userPojo" >
+  	 update userInfo set userPwd= #{userPwd} where userId=#{userId}
+  	 </update>
+  	 
+  	 <!-- 查询库存不足药品 -->
+  	 <select id="getTixing" resultType="com.medecine.dby.pojo.drugPojo">
+  	 	select * from druginfo where drugNum  &lt; tishiNum
+  	 </select>
+  	 
+  	 <!-- 查询不足药品总数 -->
+  	 <select id="getDrugCount" resultType="int" >
+  	 	select Count(*)from druginfo where drugNum  &lt; tishiNum
+  	 </select>
+  	 
+  	 <!-- 添加登录记录 -->
+
+  	 <insert id="addLogin" parameterType="com.medecine.dby.pojo.userPojo">
+  	 	insert into loginInfo (userId,userName) values(#{userId},#{userName})
+  	 </insert>
+  	 
+  	  <!-- 查询登录记录总数 -->
+  	 <select id="getLoginCount" resultType="int" >
+  	 	select Count(*)from loginInfo 
+  	 </select>
+  	 
+  	 
+  	 <!-- 查询登录记录 -->
+  	 <select id="getLogin" resultType="com.medecine.dby.pojo.loginPojo">
+  	 	select * from loginInfo
+  	 </select>
+  	 
 </mapper>
