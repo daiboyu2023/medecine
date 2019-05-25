@@ -13,4 +13,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE 
 			c.userId=u.userId
 	</select>
+	
+	<insert id="CustomerAdd" parameterType="com.medecine.wjf.pojo.CustomerPojo">
+		insert into customer
+			(customerName,contactsName,contactsPhone,customerAddress,userId)
+		values(#{customerName},#{contactsName},#{contactsPhone},#{customerAddress},#{userId})
+	</insert>
+	
+	<update id="CustomerUpdate">
+		update 
+			customer 
+		set 
+			customerName=#{customerName},contactsName=#{contactsName},
+			contactsPhone=#{contactsPhone},customerAddress=#{customerAddress} 
+		where 
+			customerId=#{customerId}
+	</update>
 </mapper>

@@ -23,5 +23,15 @@ public class CustomerServiceImpl implements CustomerService{
 		PageInfo<CustomerPojo> pageinfo=new PageInfo<>(list);
 		return pageinfo;
 	}
+	@Override
+	public int CustomerAdd(CustomerPojo pojo) {
+		int num=mapper.CustomerAdd(pojo);
+		return num;
+	}
+	@Override
+	public int CustomerUpdate(CustomerPojo pojo) {
+		int num=mapper.CustomerUpdate(pojo);
+		return num;
+	}
 
 }

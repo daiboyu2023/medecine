@@ -24,6 +24,18 @@ public class SupplierServiceImpl implements SupplierService{
 		PageInfo<SupplierPojo> pageinfo=new PageInfo<>(list);
 		return pageinfo;
 	}
+
+	@Override
+	public int SupplierAdd(SupplierPojo pojo) {
+		int num=mapper.SupplierAdd(pojo);
+		return num;
+	}
+
+	@Override
+	public int SupplierUpdate(SupplierPojo pojo) {
+		int num=mapper.SupplierUpdate(pojo);
+		return num;
+	}
 	
 
 }

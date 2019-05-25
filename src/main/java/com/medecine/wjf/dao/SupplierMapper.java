@@ -7,4 +7,8 @@ import com.medecine.wjf.pojo.SupplierPojo;
 public interface SupplierMapper {
 
 	List<SupplierPojo> Supplierquery();
+	
+	int SupplierAdd(SupplierPojo pojo);
+	
+	int SupplierUpdate(SupplierPojo pojo);
 }

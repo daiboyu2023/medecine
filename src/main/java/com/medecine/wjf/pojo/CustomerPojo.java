@@ -12,7 +12,7 @@ public class CustomerPojo {
 	
 	private String customerAddress;
 	
-	private String userId;
+	private int userId;
 	
 	private String username;
 
@@ -56,11 +56,12 @@ public class CustomerPojo {
 		this.customerAddress = customerAddress;
 	}
 
-	public String getUserId() {
+
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 

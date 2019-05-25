@@ -7,10 +7,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT 
 			s.supplierId,s.supplierName,
 			s.contactsName,s.contactsPhone,
-			s.supplierAddres,s,u.userName
+			s.supplierAddress,u.userName
 		FROM 
 			supplier AS s,userinfo AS u 
 		WHERE 
 		 	s.userId=u.userId
 	</select>
+	
+	<insert id="SupplierAdd" parameterType="com.medecine.wjf.pojo.SupplierPojo">
+		insert into supplier
+			(supplierName,contactsName,contactsPhone,supplierAddress,userId) 
+		values
+			(#{supplierName},#{contactsName},#{contactsPhone},#{supplierAddress},#{userId})
+	</insert>
+	
+	<update id="SupplierUpdate" parameterType="com.medecine.wjf.pojo.SupplierPojo">
+		update 
+			supplier 
+		set 
+			supplierName=#{supplierName},contactsName=#{contactsName},contactsPhone=#{contactsPhone},supplierAddress=#{supplierAddress}
+		where 
+			supplierId=#{supplierId}
+	</update>
 </mapper>

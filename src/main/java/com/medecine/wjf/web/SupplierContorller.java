@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
+import com.medecine.dby.pojo.userPojo;
 import com.medecine.wjf.pojo.SupplierPojo;
 import com.medecine.wjf.service.SupplierService;
 
@@ -35,5 +36,21 @@ public class SupplierContorller {
 		map.put("rows",pageinfo.getList());
 		map.put("total",pageinfo.getTotal());
 		return map;
+	}
+	
+	@RequestMapping("/wujunfan/supplierAdd")
+	public int SupplierAdd(SupplierPojo pojo,HttpServletRequest request) {
+//		userPojo user=(userPojo) request.getSession().getAttribute("userInfo");
+		pojo.setUserId(2);
+		int num=service.SupplierAdd(pojo);
+		return num;
+	}
+	
+	@RequestMapping("/wujunfan/supplierUpdate")
+	public int SupplierUpdate(SupplierPojo pojo) {
+		System.out.println(pojo);
+		int num=service.SupplierUpdate(pojo);
+		System.out.println(num);
+		return num;
 	}
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
+import com.medecine.dby.pojo.userPojo;
 import com.medecine.wjf.pojo.CustomerPojo;
 import com.medecine.wjf.pojo.DruginfoPojo;
 import com.medecine.wjf.service.CustomerService;
@@ -36,5 +37,20 @@ public class CustomerContorllet {
 		map.put("rows",pageinfo.getList());
 		map.put("total",pageinfo.getTotal());
 		return map;
+	}
+	
+	@RequestMapping("/wujunfan/customerAdd")
+	public int CustomerAdd(CustomerPojo pojo,HttpServletRequest request) {
+		userPojo user=(userPojo) request.getSession().getAttribute("userinfo");
+		pojo.setUserId(user.getUserId());
+		int num=service.CustomerAdd(pojo);
+		return num;
+	}
+	
+	@RequestMapping("/wujunfan/customerUpdate")
+	public int CustomerUpdate(CustomerPojo pojo,HttpServletRequest request) {
+		System.out.println(pojo);
+		int num=service.CustomerUpdate(pojo);
+		return num;
 	}
 }

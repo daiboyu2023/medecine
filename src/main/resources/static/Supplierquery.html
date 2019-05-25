@@ -11,8 +11,86 @@
 <script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
 </head>
 <body>
+<div id="manager_tool" style="position: relative; left:10px" >
+		<!-- 新增、修改、删除按钮 -->
+		<div style="">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+				onclick="supplier.add()">添加供应商信息</a> <a href="#" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true" onclick="supplier.update()">修改供应商信息</a> 
+		</div><br>
+		<div style="padding: 0 0 0 7px; color: #333;">
+		</div>
+	</div>
 <table id="usergrid"></table>
-<div id="childwin"></div>
+<form id="supplier_add" style="margin: 0; padding: 5px 0 0 25px; color: #333;">
+		<div align="center">
+			<table border="0px" cellspacing="0">
+				<tr>
+					<td>供货商姓名:</td>
+					<td><input type="text"name="supplierName"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>联系人:</td>
+					<td><input type="text" name="contactsName"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>联系人号码:</td>
+					<td><input type="text" name="contactsPhone"></input></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>供货商地址:</td>
+					<td><input type="text" name="supplierAddress"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>	
+		</div>
+	</form>
+	<form id="supplier_update" style="margin: 0; padding: 5px 0 0 25px; color: #333;">
+		<div align="center">
+			<table border="0px" cellspacing="0">
+				<tr>
+					<td>供货商姓名:</td>
+					<td><input type="text" id="supplierName" name="supplierName" class="textbox"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><input type="hidden" id="supplierId" name="supplierId"></td>
+				</tr>
+				<tr>
+					<td>联系人:</td>
+					<td><input type="text" id="contactsName" name="contactsName"class="textbox"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>联系人号码:</td>
+					<td><input type="text" id="contactsPhone" name="contactsPhone"class="textbox"></input></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>供货商地址:</td>
+					<td><input type="text" id="supplierAddress" name="supplierAddress" class="textbox"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>	
+		</div>
+	</form>
 <script type="text/javascript">
 	$('#usergrid').datagrid({
 		url : '/wujunfan/supplierquery',
@@ -21,7 +99,7 @@
 		rownumbers : true,
 		pagination : true,
 		pageList : [ 5, 10, 15, 20, 25 ],
-		pageSize : 10,
+		pageSize : 5,
 		columns : [ [ {
 			field : 'supplierId',title : '供货商ID',align : 'center',checkbox:true
 		},{
@@ -37,6 +115,93 @@
 		}] ]
 	});
 
+	supplier={
+			"add":function(){
+				$.messager.progress('close');
+				$("#supplier_add").form('load').dialog('open');
+			},
+			"update":function(){
+				var trobjs=$("#usergrid").datagrid('getSelections');
+				if(trobjs.length==0||trobjs.length>1){
+					$.messager.alert('警告','请选择一条记录，然后编辑');
+					return;
+				}else{
+					$.messager.progress('close');
+					$("#supplier_update").form('load').dialog('open');
+					$('#supplierId').val(trobjs[0].supplierId);
+					$("#supplierName").val(trobjs[0].supplierName);
+					$('#contactsName').val(trobjs[0].contactsName);
+					$('#contactsPhone').val(trobjs[0].contactsPhone);
+					$('#supplierAddress').val(trobjs[0].supplierAddress);
+					
+				}
+			}
+	}
+	
+	$("#supplier_add").dialog({
+		title : "新增供应商",
+		modal : true,
+		closed : true,
+		width : 500,
+		buttons : [ {
+			text : "添加",
+			handler : function() {
+				$.post("/wujunfan/supplierAdd", $("#supplier_add").serialize(),
+						function(date) {
+							if (date > 0) {
+								$.messager.show({
+									title : '消息',
+									msg : '添加成功了，消息将在5秒后关闭。',
+									timeout : 5000,
+									showType : 'slide'
+								});
+								$('#supplier_add').dialog('close').form('reset');
+								$("#usergrid").datagrid('load');
+							} 
+						})
+			}
+		}, {
+			text : "取消",
+			handler : function() {
+				//关闭dialog，并清空表单里面的数据
+				$('#supplier_add').dialog('close').form('reset');
+			}
+
+		} ],
+	})
+	
+	$("#supplier_update").dialog({
+		title : "修改供应商信息",
+		modal : true,
+		closed : true,
+		width : 500,
+		buttons : [ {
+			text : "修改",
+			handler : function() {
+				$.post("/wujunfan/supplierUpdate", $("#supplier_update").serialize(),
+						function(date) {
+							if (date > 0) {
+								$.messager.show({
+									title : '消息',
+									msg : '修改成功了，消息将在5秒后关闭。',
+									timeout : 5000,
+									showType : 'slide'
+								});
+								$('#supplier_update').dialog('close').form('reset');
+								$("#usergrid").datagrid('load');
+							} 
+						})
+			}
+		}, {
+			text : "取消",
+			handler : function() {
+				//关闭dialog，并清空表单里面的数据
+				$('#supplier_update').dialog('close').form('reset');
+			}
+
+		} ],
+	})
+	
 </script>
 </body>
 </html>

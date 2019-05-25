@@ -7,4 +7,8 @@ import com.medecine.wjf.pojo.CustomerPojo;
 public interface CustomerMapper {
 
 	List<CustomerPojo> Customerquery();
+	
+	int CustomerAdd(CustomerPojo pojo);
+	
+	int CustomerUpdate(CustomerPojo pojo);
 }

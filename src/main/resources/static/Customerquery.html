@@ -11,8 +11,86 @@
 <script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
 </head>
 <body>
+<div id="manager_tool" style="position: relative; left:10px" >
+		<!-- 新增、修改、删除按钮 -->
+		<div style="">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+				onclick="customer.add()">添加客户信息</a> <a href="#" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true" onclick="customer.update()">修改客户信息</a> 
+		</div><br>
+		<div style="padding: 0 0 0 7px; color: #333;">
+		</div>
+</div>
 <table id="usergrid"></table>
-<div id="childwin"></div>
+<form id="customer_add" style="margin: 0; padding: 5px 0 0 25px; color: #333;">
+		<div align="center">
+			<table border="0px" cellspacing="0">
+				<tr>
+					<td>客户公司名称:</td>
+					<td><input type="text"name="customerName"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>联系人:</td>
+					<td><input type="text" name="contactsName"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>联系人号码:</td>
+					<td><input type="text" name="contactsPhone"></input></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>供货商地址:</td>
+					<td><input type="text" name="customerAddress"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>	
+		</div>
+	</form>
+	<form id="customer_update" style="margin: 0; padding: 5px 0 0 25px; color: #333;">
+		<div align="center">
+			<table border="0px" cellspacing="0">
+				<tr>
+					<td>客户公司名称:</td>
+					<td><input type="text" id="customerName" name="customerName"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><input type="hidden" id="customerId" name="customerId"></td>
+				</tr>
+				<tr>
+					<td>联系人:</td>
+					<td><input type="text"  id="contactsName" name="contactsName"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>联系人号码:</td>
+					<td><input type="text" id="contactsPhone" name="contactsPhone"></input></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>供货商地址:</td>
+					<td><input type="text" id="customerAddress" name="customerAddress"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>	
+		</div>
+	</form>
 <script type="text/javascript">
 	$('#usergrid').datagrid({
 		url : '/wujunfan/Customerquery',
@@ -37,6 +115,89 @@
 		}] ]
 	});
 
+	customer={
+			"add":function(){
+				$.messager.progress('close');
+				$("#customer_add").form('load').dialog('open');
+			},
+			"update":function(){
+				var trobjs=$("#usergrid").datagrid('getSelections');
+				if(trobjs.length==0||trobjs.length>1){
+					$.messager.alert('警告','请选择一条记录，然后编辑');
+					return;
+				}else{
+					$.messager.progress('close');
+					$("#customer_update").form('load').dialog('open');
+					$('#customerId').val(trobjs[0].customerId);
+					$("#customerName").val(trobjs[0].customerName);
+					$('#contactsName').val(trobjs[0].contactsName);
+					$('#contactsPhone').val(trobjs[0].contactsPhone);
+					$('#customerAddress').val(trobjs[0].customerAddress);
+				}
+			}
+	}
+	$("#customer_add").dialog({
+		title : "新增客户信息",
+		modal : true,
+		closed : true,
+		width : 500,
+		buttons : [ {
+			text : "添加",
+			handler : function() {
+				$.post("/wujunfan/customerAdd", $("#customer_add").serialize(),
+						function(date) {
+							if (date > 0) {
+								$.messager.show({
+									title : '消息',
+									msg : '添加成功了，消息将在5秒后关闭。',
+									timeout : 5000,
+									showType : 'slide'
+								});
+								$('#customer_add').dialog('close').form('reset');
+								$("#usergrid").datagrid('load');
+							} 
+						})
+			}
+		}, {
+			text : "取消",
+			handler : function() {
+				//关闭dialog，并清空表单里面的数据
+				$('#customer_add').dialog('close').form('reset');
+			}
+
+		} ],
+	})
+	$("#customer_update").dialog({
+		title : "修改供应商信息",
+		modal : true,
+		closed : true,
+		width : 500,
+		buttons : [ {
+			text : "修改",
+			handler : function() {
+				$.post("/wujunfan/customerUpdate", $("#customer_update").serialize(),
+						function(date) {
+							if (date > 0) {
+								$.messager.show({
+									title : '消息',
+									msg : '修改成功了，消息将在5秒后关闭。',
+									timeout : 5000,
+									showType : 'slide'
+								});
+								$('#customer_update').dialog('close').form('reset');
+								$("#usergrid").datagrid('load');
+							} 
+						})
+			}
+		}, {
+			text : "取消",
+			handler : function() {
+				//关闭dialog，并清空表单里面的数据
+				$('#customer_update').dialog('close').form('reset');
+			}
+
+		} ],
+	})
 </script>
 </body>
 </html>
