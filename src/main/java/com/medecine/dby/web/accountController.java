@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.medecine.dby.pojo.Map1;
+import com.medecine.dby.pojo.Map2;
+import com.medecine.dby.pojo.drugPojo;
+import com.medecine.dby.pojo.loginMap;
+import com.medecine.dby.pojo.loginPojo;
 import com.medecine.dby.pojo.rows1;
 import com.medecine.dby.pojo.userPojo;
 import com.medecine.dby.service.dbyService;
@@ -45,14 +49,18 @@ public class accountController {
 			else {
 
 				user.setAuthorityName(authority.getAuthorityName());
-				System.out.println(user);
+				
+				dby.addLogin(user);
 				request.getSession().setAttribute("userInfo", user);
 				request.getSession().setAttribute("userPwd", user.getUserPwd());
 				request.getSession().setAttribute("userId", user.getUserId());
 				request.getSession().setAttribute("authorityName", user.getAuthorityName());
 				request.getSession().setAttribute("recordTime", user.getRecordTime());
+				System.out.println("登录用户："+user);
+				
 				return 1;
-			}}
+			}
+			}
 	} 
 
 	//查询
@@ -139,6 +147,7 @@ public class accountController {
 		HttpSession se= request.getSession();
 		Object ob = se.getAttribute("userInfo");
 		if(ob==null) {
+			System.out.println("没拿到session");
 			return "0";
 		}else {
 			userPojo user=(userPojo)se.getAttribute("userInfo");
@@ -165,13 +174,50 @@ public class accountController {
 			if(pwd1.equals(user.getUserPwd())) {
 				user.setUserPwd(pwd2);
 				int i = dby.updatePwd(user);
-				
-				
 				return i;
 			}else {
 				return 2;
 			}
-		
-	
 	}
+	
+	@RequestMapping("getDrugCount_dby")
+	public Map2 getTixing(rows1 ro,HttpServletRequest request){
+		List<drugPojo> list =null;
+		int page=Integer.parseInt(request.getParameter("page"));
+		int rows=Integer.parseInt(request.getParameter("rows"));
+		int a=(page-1)*rows;
+		ro.setA(a);
+		ro.setRows(rows);
+		int count =dby.getDrugCount();
+		list = dby.getTixing();
+		System.out.println("集合==="+list);
+		
+		Map2 m=new Map2();
+
+		m.setRows(list);
+		m.setTotal(count);
+		return m;
+	}
+	
+	//获取登录记录
+	@RequestMapping("getLogin_dby")
+	public loginMap getLogin(rows1 ro,HttpServletRequest request){
+		List<loginPojo> list =null;
+		int page=Integer.parseInt(request.getParameter("page"));
+		int rows=Integer.parseInt(request.getParameter("rows"));
+		int a=(page-1)*rows;
+		ro.setA(a);
+		ro.setRows(rows);
+		int count =dby.getLoginCount();
+		list = dby.getLogin();
+		System.out.println("集合==="+list);
+		
+		loginMap m=new loginMap();
+
+		m.setRows(list);
+		m.setTotal(count);
+		return m;
+	}
+	
+
 }

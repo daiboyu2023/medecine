@@ -38,6 +38,7 @@
 <body>
     <div class="dowebok">
         <div class="logo"></div>
+        <form action="">
         <div class="form-item">
             <input id="username" type="text" autocomplete="off" placeholder="手机号码">
             <p class="tip">请输入正确的手机号码</p>
@@ -46,6 +47,7 @@
             <input id="password" type="password" autocomplete="off" placeholder="登录密码">
         </div>
         <div class="form-item"><button id="submit" onclick="login()">登 录</button></div>
+        </form>
     </div>
     <script src="images/jquery.min.js"></script>
     <script>
@@ -60,11 +62,12 @@
 				userPwd:$("#password").val()
 			},
 			success:function(data){
+				alert(data);
 				if(data==2){
 					alert("你已经被开除，无权登录！");
 				}
 				else if(data==1){
-					window.location.href="main.html?";
+					window.location.href="main.html";
 				}else{
 					alert("账号/电话 或者密码错误！");
 				}

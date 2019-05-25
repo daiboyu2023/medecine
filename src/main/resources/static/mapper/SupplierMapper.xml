@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT 
 			s.supplierId,s.supplierName,
 			s.contactsName,s.contactsPhone,
-			s.supplierAddres,s,u.userName
+			s.supplierAddress,u.userName
 		FROM 
 			supplier AS s,userinfo AS u 
 		WHERE 

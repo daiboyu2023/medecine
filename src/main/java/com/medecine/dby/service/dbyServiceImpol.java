@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.medecine.dby.dao.dbyMapper;
+import com.medecine.dby.pojo.drugPojo;
+import com.medecine.dby.pojo.loginPojo;
 import com.medecine.dby.pojo.userPojo;
 
 
@@ -87,7 +89,47 @@ public class dbyServiceImpol implements dbyService {
 		return dby.updatePwd(u);
 	}
 
-	
+
+
+
+	@Override
+	public List<drugPojo> getTixing() {
+		// TODO Auto-generated method stub
+		return dby.getTixing();
+	}
+
+	@Override
+	public int getDrugCount() {
+		// TODO Auto-generated method stub
+		return dby.getDrugCount();
+		}
+
+
+
+
+	@Override
+	public int addLogin(userPojo u) {
+		// TODO Auto-generated method stub
+		return dby.addLogin(u);
+	}
+
+
+
+
+	@Override
+	public List<loginPojo> getLogin() {
+		// TODO Auto-generated method stub
+		return dby.getLogin();
+	}
+
+
+
+
+	@Override
+	public int getLoginCount() {
+		// TODO Auto-generated method stub
+		return dby.getLoginCount();
+	}
 
 
 	

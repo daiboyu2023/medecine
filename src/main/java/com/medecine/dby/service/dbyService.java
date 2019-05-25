@@ -2,6 +2,8 @@ package com.medecine.dby.service;
 
 import java.util.List;
 
+import com.medecine.dby.pojo.drugPojo;
+import com.medecine.dby.pojo.loginPojo;
 import com.medecine.dby.pojo.userPojo;
 
 public interface dbyService {
@@ -27,4 +29,19 @@ public interface dbyService {
 		
 		//修改密码
 		int updatePwd(userPojo u);
+		
+		//查询库存提示
+		List<drugPojo> getTixing();
+		
+		//查询库存提示总数
+		int getDrugCount();
+		
+		//添加登录记录
+	     int addLogin(userPojo u);
+
+	     //查询登录记录
+	     List<loginPojo> getLogin();
+	     
+	     //获取登录记录总数
+	     int getLoginCount();
 }
